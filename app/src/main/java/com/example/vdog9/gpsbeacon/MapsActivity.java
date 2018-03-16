@@ -41,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     LocationListener locationListener;
     LatLng myLocation;
+
     private ProximityManager proximityManager;
     private Map<String, LatLng> beaconPositions = new HashMap<>();
     private boolean goodBeaconSignal;
@@ -72,11 +73,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @SuppressLint("MissingPermission")
             @Override
             public void onLocationChanged(Location location) {
-                //Whenever marker is updated, a new one is placed and the old is removed
                 //GET MY LAST KNOWN LOCATION
                 double latitude = location.getLatitude();
                 double longtitude = location.getLongitude();
                 myLocation = new LatLng(latitude, longtitude);
+
                 if(userMarker == null) {
                     userMarker = mMap.addMarker(new MarkerOptions().position(myLocation).title("Current Position"));
                 }
@@ -90,6 +91,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if(userMarker.getSnippet() != null){
                             userMarker.setSnippet(null);
                         }
+=======
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("GPS position"));
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
                 }
             }
 
@@ -106,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
+
     }
 
     private void startScanning() {
@@ -116,6 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 proximityManager.startScanning();
             }
         });
+
     }
 
     private IBeaconListener createIBeaconListener() {
