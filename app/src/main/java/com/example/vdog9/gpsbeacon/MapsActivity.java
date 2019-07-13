@@ -119,7 +119,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         proximityManager.connect(new OnServiceReadyListener() {
             @Override
             public void onServiceReady() {
-                System.out.println("test nigger");
                 proximityManager.startScanning();
             }
         });
